@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -22,11 +23,20 @@ public class Main {
                     Education.values()[new Random().nextInt(Education.values().length)])
             );
         }
-        Stream<Person> UnderAge = persons.stream()
-                .filter( p -> p.getAge() < 18);
-        Stream<Person> Miltary = persons.stream()
-                .filter( p -> p.getSex().equals(Sex.MAN))
-                .filter( p -> p.getAge() >= 18 & p.getAge() < 27);
+        long UnderAge = persons.stream()
+                .filter(p -> p.getAge() < 18)
+                .count();
+        List<String> Miltary = persons.stream()
+                .filter(p -> p.getSex().equals(Sex.MAN))
+                .filter(p -> p.getAge() >= 18 & p.getAge() < 27)
+                .map(Person::getFamily)
+                .toList();
+        Stream<Person> EducatedMan = persons.stream()
+                .filter(p -> p.getEducation().equals(Education.HIGHER))
+                .filter(p -> p.getSex().equals(Sex.MAN) & p.getAge() >= 18 & p.getAge() < 65);
+        Stream<Person> EducatedWoman = persons.stream()
+                .filter(p -> p.getEducation().equals(Education.HIGHER))
+                .filter(p -> p.getSex().equals(Sex.WOMAN) & p.getAge() >= 18 & p.getAge() < 60);
 
 
 
