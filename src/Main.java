@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -21,6 +22,13 @@ public class Main {
                     Education.values()[new Random().nextInt(Education.values().length)])
             );
         }
-        filter
+        Stream<Person> UnderAge = persons.stream()
+                .filter( p -> p.getAge() < 18);
+        Stream<Person> Miltary = persons.stream()
+                .filter( p -> p.getSex().equals(Sex.MAN))
+                .filter( p -> p.getAge() >= 18 & p.getAge() < 27);
+
+
+
     }
 }
