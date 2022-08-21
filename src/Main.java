@@ -1,14 +1,9 @@
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
-
-//    Найти количество несовершеннолетних (т.е. людей младше 18 лет).
-//    Получить список фамилий призывников (т.е. мужчин от 18 и до 27 лет).
-//    Получить отсортированный по фамилии список потенциально работоспособных
-//    людей с высшим образованием в выборке (т.е. людей с высшим образованием
-//    от 18 до 60 лет для женщин и до 65 лет для мужчин).
 
     public static void main(String[] args) {
         List<String> names = Arrays.asList("Jack", "Connor", "Harry", "George", "Samuel", "John", "Simon");
@@ -28,17 +23,15 @@ public class Main {
                 .count();
         List<String> Miltary = persons.stream()
                 .filter(p -> p.getSex().equals(Sex.MAN))
-                .filter(p -> p.getAge() >= 18 & p.getAge() < 27)
+                .filter(p -> p.getAge() >= 18 && p.getAge() < 27)
                 .map(Person::getFamily)
                 .toList();
-        Stream<Person> EducatedMan = persons.stream()
+        List<Person> EducatedWorkers = persons.stream()
                 .filter(p -> p.getEducation().equals(Education.HIGHER))
-                .filter(p -> p.getSex().equals(Sex.MAN) & p.getAge() >= 18 & p.getAge() < 65);
-        Stream<Person> EducatedWoman = persons.stream()
-                .filter(p -> p.getEducation().equals(Education.HIGHER))
-                .filter(p -> p.getSex().equals(Sex.WOMAN) & p.getAge() >= 18 & p.getAge() < 60);
-
-
-
+                .filter(p -> p.getAge() >= 18)
+                .filter(p -> p.getSex().equals(Sex.MAN) & p.getAge() < 65
+                || (p.getSex().equals(Sex.WOMAN) & p.getAge() < 60))
+                .sorted(Comparator.comparing(Person::getFamily))
+                .collect(Collectors.toList());
     }
 }
